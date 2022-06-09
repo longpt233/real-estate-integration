@@ -59,13 +59,13 @@ class BatdongsanSpider(scrapy.Spider):
         item['phone_contact'] = response.css(
             '.property > .contact > .contact-info > .content > .fone > a::text').extract_first()
         item['kitchen'] = response.css(
-            '.property > .moreinfor1 > .infor > table > tr:nth-child(3) > td:nth-child(6)::text').extract_first()
+            '.property > .moreinfor1 > .infor > table > tr:nth-child(3) > td:nth-child(6) > img::attr(src)').extract_first()
         item['diningroom'] = response.css(
-            '.property > .moreinfor1 > .infor > table > tr:nth-child(2) > td:nth-child(6)::text').extract_first()
+            '.property > .moreinfor1 > .infor > table > tr:nth-child(2) > td:nth-child(6)> img::attr(src)').extract_first()
         item['terrace'] = response.css(
-            '.property > .moreinfor1 > .infor > table > tr:nth-child(4) > td:nth-child(6)::text').extract_first()
+            '.property > .moreinfor1 > .infor > table > tr:nth-child(4) > td:nth-child(6) > img::attr(src)').extract_first()
         item['parking'] = response.css(
-            '.property > .moreinfor1 > .infor > table > tr:nth-child(5) > td:nth-child(6)::text').extract_first()
+            '.property > .moreinfor1 > .infor > table > tr:nth-child(5) > td:nth-child(6) > img::attr(src)').extract_first()
 
         yield item
 
