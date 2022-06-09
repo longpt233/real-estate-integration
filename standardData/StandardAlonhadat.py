@@ -7,8 +7,6 @@ class StandardAlonhadat(StandardCommon):
         self.data = data
 
 
-
-
 PATH_ALO_NHA_DAT = "../crawlData/alonhadat.csv"
 alonhadat = pd.read_csv(PATH_ALO_NHA_DAT, encoding = 'utf-8')
 

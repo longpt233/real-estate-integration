@@ -67,11 +67,11 @@ class CrawlSosanhnhaItem(Item):
     user_phone = Field()
     user_address = Field()
 
-class CrawlBatdongsanItem(Item):
+class CrawlBatdongsansoItem(Item):
     title = Field()
     content = Field()
     price = Field()
-    district = Field()
+    type = Field()
     address = Field()
     date = Field()
     property = Field()

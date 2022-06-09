@@ -1,0 +1,28 @@
+*Chuẩn hóa đơn vị:
+bedroom : số phòng
+floor: số tầng
+date : dd/mm/yyyy
+direct : giá trị None có nghĩa là k xác định
+dinningroom, kitchen, terrace, parking,  bathroom: "có" hoặc "không"
+phone_contact: định dạng chung là : 0987654XXX
+price: đơn vị là "đồng"
+width, length, area/square/ground_area, road_width: đơn vị là "m", giá trị "0" có nghĩa là k xác định
+type: tất cả đều là "Cần bán căn hộ"
+street, ward, district, province : địa chỉ căn hộ 
+toilet: số phòng
+juridical: pháp lý.
+
+*Riêng trường address của tập dữ liệu batdongsan.so k thể tách được ra các field street, ward, district
+province vì nó k tuân thủ định dạng chung 
+
+*Các bước chuẩn hóa: 
+-Loại bỏ trùng lặp
+-Tách trường address thành các trường con : street, ward, district, province
+-Tách trường property của file batdongsanso thành các trường: facade, bedroom, square, floor,
+toilet
+-Xóa đơn vị "m" của các trường length, with, area
+-Chuẩn hóa trường type về 1 dạng: "Cần bán căn hộ"
+-Chuẩn hóa đơn vị trường price là "đồng"
+-Chuẩn hóa phone về dạng 0987654XXX 
+-Chuẩn hóa date về dạng dd/mm/yyyy
+

@@ -22,8 +22,10 @@ class StandardCommon:
             street = self.sliceStringByString(item, "Đường") or self.sliceStringByString(item, "Phố")
             lsStreet.append(street)
 
-            idxStartProvince = item.rfind(',') + 1
-            province =item[idxStartProvince:]
+            province = self.sliceStringByString(item, "Tỉnh") or self.sliceStringByString(item, "Thành phố")
+            if not province :
+                idxStartProvince = item.rfind(',') + 1
+                province =item[idxStartProvince:]
             lsProvince.append(province)
 
             ward = self.sliceStringByString(item, "Phường") or self.sliceStringByString(item, "Xã")
@@ -55,11 +57,12 @@ class StandardCommon:
         for field in fields:
             ls = []
             for item in self.data[field]:
+                item = str(item)
                 item = re.findall(r"(?:\d*\.\d+|\d+)", item)
                 if len(item):
                     item = item[0]
                 else:
-                    item = None
+                    item = "0"
                 ls.append(item)
             self.data[field] = ls
 
@@ -67,22 +70,26 @@ class StandardCommon:
     def standardPrice(self, fieldPrice, fieldSquare):
         ls = []
         for price, square in zip(self.data[fieldPrice], self.data[fieldSquare]):
-            if price :
-                price = re.sub(",", ".", price)
-                valPrice = re.findall(r"(?:\d*\.\d+|\d+)", price)
-                if (len(valPrice)):
-                    valPrice = float(valPrice[0])
-                    if "/m" in price:
-                        valPrice = int(valPrice * float(square))
-                    if "/tháng" in price:
-                        valPrice = None
-                    else:
-                        if "tỷ" in price:
-                            valPrice = int(valPrice * 1000000000)
-                        if "triệu" in price:
-                            valPrice = int(valPrice * 1000000)
+            price = str(price)
+            price = price.lower()
+            price = re.sub(",", ".", price)
+            valPrice = re.findall(r"(?:\d*\.\d+|\d+)", price)
+
+            if (len(valPrice)):
+                valPrice = float(valPrice[0])
+                if "/m" in price:
+                    valPrice = int(valPrice * float(square))
+                if "/tháng" in price:
+                    valPrice = ""
                 else:
-                    valPrice = None
+                    if "tỷ" in price:
+                        valPrice = int(valPrice * 1000000000)
+                    if "triệu" in price:
+                        valPrice = int(valPrice * 1000000)
+                    if "ngàn" in price:
+                        valPrice = int(valPrice * 1000)
+            else:
+                valPrice = ""
             ls.append(str(valPrice))
         self.data[fieldPrice] = ls
 
@@ -107,6 +114,8 @@ class StandardCommon:
         for field in fields:
             ls = []
             for item in self.data[field]:
+                item = str(item)
+                item = item.strip()
                 if item =="_" or item == "---":
                     item = None
                 ls.append(item)
@@ -127,7 +136,7 @@ class StandardCommon:
                 if item == "/publish/img/check.gif":
                     ls.append("Có")
                 else:
-                    ls.append(None)
+                    ls.append("Không")
             self.data[field] = ls
 
 
