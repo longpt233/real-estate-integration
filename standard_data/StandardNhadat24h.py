@@ -1,4 +1,4 @@
-from standardData.StandardCommon import StandardCommon
+from standard_data.StandardCommon import StandardCommon
 import pandas as pd
 import numpy as np
 
@@ -16,7 +16,7 @@ class StandardNhadat24h(StandardCommon):
         self.data[field] = ls
 
 
-PATH_NHA_DAT_24H= "../crawlData/nhadat24h.csv"
+PATH_NHA_DAT_24H= "../crawl_data/nhadat24h.csv"
 nhadat24h = pd.read_csv(PATH_NHA_DAT_24H, encoding = 'utf-8')
 
 nd24h = StandardNhadat24h(nhadat24h)

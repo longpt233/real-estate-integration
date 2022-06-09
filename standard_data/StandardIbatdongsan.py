@@ -1,11 +1,11 @@
-from standardData.StandardCommon import StandardCommon
+from standard_data.StandardCommon import StandardCommon
 import pandas as pd
 
 class StandardIbatdongsan(StandardCommon):
     def __init__(self, data):
         self.data = data
 
-PATH_IBAT_DONG_SAN = "../crawlData/ibatdongsan.csv"
+PATH_IBAT_DONG_SAN = "../crawl_data/ibatdongsan.csv"
 ibatdongsan = pd.read_csv(PATH_IBAT_DONG_SAN, encoding = 'utf-8')
 
 ibds = StandardIbatdongsan(ibatdongsan)

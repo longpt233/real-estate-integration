@@ -1,4 +1,4 @@
-from standardData.StandardCommon import StandardCommon
+from standard_data.StandardCommon import StandardCommon
 import pandas as pd
 import numpy as np
 import re
@@ -47,7 +47,7 @@ class StandardBatdongsanso(StandardCommon):
         self.data = self.data.drop(columns=fieldProperty)
 
 
-PATH_BAT_DONG_SAN_SO = "../crawlData/batdongsanso.csv"
+PATH_BAT_DONG_SAN_SO = "../crawl_data/batdongsanso.csv"
 batdongsanso = pd.read_csv(PATH_BAT_DONG_SAN_SO, encoding = 'utf-8')
 
 bdss = StandardBatdongsanso(batdongsanso)
