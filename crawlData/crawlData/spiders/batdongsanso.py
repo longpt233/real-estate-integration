@@ -1,6 +1,6 @@
 import scrapy
 from scrapy.selector import Selector
-from ..items import CrawlBatdongsanItem
+from ..items import CrawlBatdongsansoItem
 
 class BatdongsanSpider(scrapy.Spider):
     i=1
@@ -26,10 +26,11 @@ class BatdongsanSpider(scrapy.Spider):
             yield response.follow(path_next, callback=self.parse)
 
     def parse_detail (self, response):
-        item = CrawlBatdongsanItem()
+        item = CrawlBatdongsansoItem()
         item['title'] = response.css('.re > .re-title::text').extract_first()
-        item['price'] = response.css('.re > .re-tab > .re-district-price > .re-price > strong::text').extract_first()
-        item['district'] = response.css('.re > .re-tab > .re-district-price > .re-district > a::text').extract()
+        item['price'] = response.css('.re > .re-tab > .re-district-price > .re-price > strong::text').extract_first() \
+                        + response.css('.re > .re-tab > .re-district-price > .re-price::text').extract()[1]
+        item['type'] = response.css('.re > .re-tab > .re-district-price > .re-district > a::text').extract_first()
         item['property'] = response.css('.re > .re-block > .re-property > li::text').extract()
         item['address'] = response.css('.re > .re-block > .re-address::text').extract()
         item['content'] = response.css('.re > .re-block > .re-content > p *::text').extract()
