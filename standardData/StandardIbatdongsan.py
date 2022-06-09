@@ -15,4 +15,5 @@ ibds.standardDate("date")
 ibds.removeUnitMeasure(["area", "length", "width", "world_highway"])
 ibds.standardPrice("price", "area")
 ibds.standardNone(["diningroom", "direct", "floor", "kitchen", "parking", "terrace", "width", "juridical", "length", "world_highway"])
+
 ibds.data.to_csv("ibatdongsan.csv")

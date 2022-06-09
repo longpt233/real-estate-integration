@@ -73,14 +73,14 @@ class StandardCommon:
                 if (len(valPrice)):
                     valPrice = float(valPrice[0])
                     if "/m" in price:
-                        valPrice = valPrice * float(square)
+                        valPrice = int(valPrice * float(square))
                     if "/tháng" in price:
                         valPrice = None
                     else:
                         if "tỷ" in price:
-                            valPrice = valPrice * 1000000000
+                            valPrice = int(valPrice * 1000000000)
                         if "triệu" in price:
-                            valPrice = valPrice * 1000000
+                            valPrice = int(valPrice * 1000000)
                 else:
                     valPrice = None
             ls.append(str(valPrice))
@@ -114,6 +114,12 @@ class StandardCommon:
                 self.data[field] = ls
             else :
                 self.data = self.data.drop(columns=field)
+
+    def standardType(self, fieldType):
+        N = len(self.data[fieldType])
+        type = ["Cần bán căn hộ chung cư"] *N
+        self.data[fieldType] = type
+
 
 
 
