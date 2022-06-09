@@ -1,4 +1,4 @@
-from standardData.StandardCommon import StandardCommon
+from standard_data.StandardCommon import StandardCommon
 import pandas as pd
 import numpy as np
 
@@ -7,7 +7,7 @@ class StandardAlonhadat(StandardCommon):
         self.data = data
 
 
-PATH_ALO_NHA_DAT = "../crawlData/alonhadat.csv"
+PATH_ALO_NHA_DAT = "../crawl_data/alonhadat.csv"
 alonhadat = pd.read_csv(PATH_ALO_NHA_DAT, encoding = 'utf-8')
 
 alonhadat = StandardAlonhadat(alonhadat)
