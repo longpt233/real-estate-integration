@@ -6,15 +6,7 @@ class StandardAlonhadat(StandardCommon):
     def __init__(self, data):
         self.data = data
 
-    def standardIcon(self, fields):
-        for field in fields:
-            ls = []
-            for item in self.data[field]:
-                if item == "/publish/img/check.gif":
-                    ls.append("Có")
-                else:
-                    ls.append(None)
-            self.data[field] = ls
+
 
 
 PATH_ALO_NHA_DAT = "../crawlData/alonhadat.csv"

@@ -120,6 +120,16 @@ class StandardCommon:
         type = ["Cần bán căn hộ chung cư"] *N
         self.data[fieldType] = type
 
+    def standardIcon(self, fields):
+        for field in fields:
+            ls = []
+            for item in self.data[field]:
+                if item == "/publish/img/check.gif":
+                    ls.append("Có")
+                else:
+                    ls.append(None)
+            self.data[field] = ls
+
 
 
 
