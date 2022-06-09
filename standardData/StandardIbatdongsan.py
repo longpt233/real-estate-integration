@@ -5,6 +5,13 @@ class StandardIbatdongsan(StandardCommon):
     def __init__(self, data):
         self.data = data
 
+    def standardPhoneContact(self, field):
+        ls = []
+        for item in self.data[field]:
+            item = "0"+item
+            ls.append(item)
+        self.data[field] = ls
+
 PATH_IBAT_DONG_SAN = "../crawlData/ibatdongsan.csv"
 ibatdongsan = pd.read_csv(PATH_IBAT_DONG_SAN, encoding = 'utf-8')
 
@@ -15,5 +22,7 @@ ibds.standardDate("date")
 ibds.removeUnitMeasure(["area", "length", "width", "world_highway"])
 ibds.standardPrice("price", "area")
 ibds.standardNone(["diningroom", "direct", "floor", "kitchen", "parking", "terrace", "width", "juridical", "length", "world_highway"])
+ibds.standardType("type")
+ibds.standardPhoneContact("phone_contact")
 
 ibds.data.to_csv("ibatdongsan.csv")
