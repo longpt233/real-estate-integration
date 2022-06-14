@@ -10,6 +10,13 @@ sudo apt-get update
 sudo apt-get install sbt
 ```
 
+- build 
+- 
+```aidl
+sbt clean compile
+
+```
+
 ## run kafka 
 
 ```

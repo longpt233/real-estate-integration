@@ -117,7 +117,7 @@ object SparkJobMultiStreams {
     }.map(x => (x(0), x(1), x(2), Integer.parseInt(x(3))))
       .as[(String, String, String, Int)]
       .toDF("Id", "Make", "Model", "Year")
-      .groupBy($"Make", $"Model", $"Year").agg($"Make", $"Model", count("Year"))
+      .groupBy( $"Year").agg(count("Model"))
 
 
     // Start running the query for topic1 that prints the running counts to the console
