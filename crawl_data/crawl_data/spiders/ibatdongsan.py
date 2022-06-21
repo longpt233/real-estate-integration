@@ -66,6 +66,7 @@ class BatdongsanSpider(scrapy.Spider):
             '.property > .moreinfor1 > .infor > table > tr:nth-child(4) > td:nth-child(6) > img::attr(src)').extract_first()
         item['parking'] = response.css(
             '.property > .moreinfor1 > .infor > table > tr:nth-child(5) > td:nth-child(6) > img::attr(src)').extract_first()
+        item['url_page'] = response.request.url
 
         yield item
 

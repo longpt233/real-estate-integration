@@ -39,6 +39,8 @@ class BatdongsanSpider(scrapy.Spider):
         item['link_image'] = response.css('.re > .re-tab > .tab-content > #re-gallery > .re-gallery > .re-images .item > a > img::attr(src)').extract_first()
         item['name_contact'] = response.css('.re > .re-block > .re-contact-info > .info > a::text').extract_first()
         item['phone_contact'] = response.css('.re > .re-block > .re-contact-info > .info > div > home-post-phone::attr(phone)').extract_first()
+        item['url_page'] = response.request.url
+
         yield item
 
 

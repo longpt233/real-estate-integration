@@ -8,9 +8,8 @@ class BatdongsanSpider(scrapy.Spider):
     name = "nhadat24h"
     def start_requests(self):
         start_urls=[self.base_url]
-
         i = 1
-        for j in range(72):
+        for j in range(80):
             url = self.base_url + str(i)
             i=i+1
             start_urls.append(url)
@@ -22,6 +21,7 @@ class BatdongsanSpider(scrapy.Spider):
         products = response.css('.item')
         for product in products:
             link_detail = product.css('.ct-title > a::attr(href)').extract_first()
+            self.link_page = link_detail
             yield response.follow(link_detail, self.parse_detail)
 
 
@@ -78,5 +78,6 @@ class BatdongsanSpider(scrapy.Spider):
             '.content-left > .main-content > #page-news > table > tbody > tr:nth-child(5) > td::text').extract_first()
         item['road_width'] = response.css(
             '.content-left > .main-content > #page-news > table > tbody > tr:nth-child(5) > td:nth-child(2)::text').extract_first()
+        item['url_page'] = response.request.url
 
         yield item

@@ -31,6 +31,7 @@ class CrawlAlonhadatItem(Item):
     name_contact = Field()
     phone_contact = Field()
     introduce_contact = Field()
+    url_page = Field()
 
 class CrawlIBatdongsanItem(Item):
     title = Field()
@@ -55,6 +56,7 @@ class CrawlIBatdongsanItem(Item):
     phone_contact = Field()
     name_contact = Field()
     link_image = Field()
+    url_page = Field()
 
 class CrawlSosanhnhaItem(Item):
     title = Field()
@@ -66,6 +68,7 @@ class CrawlSosanhnhaItem(Item):
     user_name = Field()
     user_phone = Field()
     user_address = Field()
+    url_page = Field()
 
 class CrawlBatdongsansoItem(Item):
     title = Field()
@@ -79,6 +82,7 @@ class CrawlBatdongsansoItem(Item):
     name_contact = Field()
     phone_contact = Field()
     link_image = Field()
+    url_page = Field()
 
 class CrawlNhadat24h(Item):
     title= Field()
@@ -105,6 +109,7 @@ class CrawlNhadat24h(Item):
     link_image = Field()
     juridical = Field()
     parking = Field()
+    url_page = Field()
 
 
 

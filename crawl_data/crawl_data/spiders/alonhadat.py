@@ -64,6 +64,7 @@ class BatdongsanSpider(scrapy.Spider):
         item['name_contact'] = response.css('.contact > .contact-info > .content > .name::text').extract_first()
         item['phone_contact'] = response.css('.contact > .contact-info > .content > .fone > a::text').extract_first()
         item['introduce_contact'] = response.css('.contact > .contact-info > .content > .introduce::text').extract_first()
+        item['url_page'] = response.request.url
 
         yield item
 
