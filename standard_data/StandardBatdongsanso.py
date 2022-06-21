@@ -69,5 +69,6 @@ bdss.standardPrice("price", "square")
 bdss.standardType("type")
 bdss.standardPhoneContact("phone_contact")
 bdss.standardAddress("address")
+bdss.strip(["name_contact", "direct"])
 
 bdss.data.to_csv("batdongsanso.csv")

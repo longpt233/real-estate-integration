@@ -140,6 +140,16 @@ class StandardCommon:
                     ls.append("Không")
             self.data[field] = ls
 
+    def strip(self, fields):
+        for field in fields:
+            ls = []
+            for item in self.data[field]:
+                if item:
+                    item = str(item)
+                    item = item.strip()
+                    item = re.sub("\n", "", item)
+                ls.append(item)
+            self.data[field] = ls
 
 
 
