@@ -15,7 +15,7 @@ class SchemaMatching:
                                "property_address" : None,
                                "property_type" : None,
                                "property_date" : None,
-                            #    "property_link" : None,
+                               "property_link" : None,
                                "property_images" : None}
         self.min_thres = min_thres
 
@@ -54,7 +54,7 @@ class SchemaMatching:
         self.field_matchers["property_address"] = property_address_classifer(feature_extractor=self.features_extractor)
         self.field_matchers["property_type"] = property_type_classifer(feature_extractor=self.features_extractor)
         self.field_matchers["property_date"] = property_date_detector()
-        # self.field_matchers["property_link"] = property_link_detector()
+        self.field_matchers["property_link"] = property_link_detector()
         self.field_matchers["property_images"] = property_images_detector()
 
         for key in self.field_matchers:
