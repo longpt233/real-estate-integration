@@ -12,33 +12,34 @@ class StandardCommon:
         return self.data.drop_duplicates(subset=subset)
 
     # tách trường address thành các trường ward, province, street, district
-    def sliceAddress(self, fieldAddress):
-        lsStreet = []
-        lsWard = []
-        lsDistrict = []
-        lsProvince = []
+    # def sliceAddress(self, fieldAddress):
+    #     lsStreet = []
+    #     lsWard = []
+    #     lsDistrict = []
+    #     lsProvince = []
+    #
+    #     for item in self.data[fieldAddress]:
+    #         street = self.sliceStringByString(item, "Đường") or self.sliceStringByString(item, "Phố")
+    #         lsStreet.append(street)
+    #
+    #         province = self.sliceStringByString(item, "Tỉnh") or self.sliceStringByString(item, "Thành phố")
+    #         if not province :
+    #             idxStartProvince = item.rfind(',') + 1
+    #             province =item[idxStartProvince:]
+    #         lsProvince.append(province)
+    #
+    #         ward = self.sliceStringByString(item, "Phường") or self.sliceStringByString(item, "Xã")
+    #         lsWard.append(ward)
+    #
+    #         district = self.sliceStringByString(item, "Quận") or self.sliceStringByString(item, "Huyện")
+    #         lsDistrict.append(district)
+    #
+    #     self.data["ward"] = lsWard
+    #     self.data["district"] = lsDistrict
+    #     self.data["province"] = lsProvince
+    #     self.data["street"] = lsStreet
+    #     self.data = self.data.drop(columns=[fieldAddress])
 
-        for item in self.data[fieldAddress]:
-            street = self.sliceStringByString(item, "Đường") or self.sliceStringByString(item, "Phố")
-            lsStreet.append(street)
-
-            province = self.sliceStringByString(item, "Tỉnh") or self.sliceStringByString(item, "Thành phố")
-            if not province :
-                idxStartProvince = item.rfind(',') + 1
-                province =item[idxStartProvince:]
-            lsProvince.append(province)
-
-            ward = self.sliceStringByString(item, "Phường") or self.sliceStringByString(item, "Xã")
-            lsWard.append(ward)
-
-            district = self.sliceStringByString(item, "Quận") or self.sliceStringByString(item, "Huyện")
-            lsDistrict.append(district)
-
-        self.data["ward"] = lsWard
-        self.data["district"] = lsDistrict
-        self.data["province"] = lsProvince
-        self.data["street"] = lsStreet
-        self.data = self.data.drop(columns=[fieldAddress])
 
     # tách string bằng string
     def sliceStringByString(self, s, sub):
@@ -103,9 +104,9 @@ class StandardCommon:
                 date = date.group(0)
             else:
                 if "Hôm nay" in item:
-                    date = "26/05/2022"
+                    date = "21/06/2022"
                 if "Hôm qua" in item:
-                    date = "25/05/2022"
+                    date = "20/06/2022"
             ls.append(date)
         self.data[fieldDate] = ls
 

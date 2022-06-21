@@ -12,7 +12,16 @@ class StandardBatdongsanso(StandardCommon):
         for item in self.data[field]:
             item = re.sub("\*", "X", item)
             ls.append(item)
-        self.data[field] =ls
+        self.data[field] = ls
+
+    def standardAddress(self, field):
+        ls = []
+        for item in self.data[field]:
+            item = item.strip()
+            item = item[1:]
+            item = re.sub("\n", "", item)
+            ls.append(item)
+        self.data[field] = ls
 
     def sliceProperty(self, fieldProperty, fieldSquare, fieldDirect, fieldBedroom, fieldToilet, fieldFacade, fieldFloor):
         lsSquare = []
@@ -59,5 +68,6 @@ bdss.removeUnitMeasure(["square"])
 bdss.standardPrice("price", "square")
 bdss.standardType("type")
 bdss.standardPhoneContact("phone_contact")
+bdss.standardAddress("address")
 
 bdss.data.to_csv("batdongsanso.csv")
