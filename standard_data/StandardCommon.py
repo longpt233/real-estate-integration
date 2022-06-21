@@ -48,9 +48,9 @@ class StandardCommon:
             startIndex = startIndex + len(sub)
             endIndex = s[startIndex:].find(',')
             if endIndex != -1:
-                return s[startIndex:][:endIndex]
+                return s[startIndex:][:endIndex].strip()
             else:
-                return s[startIndex:]
+                return s[startIndex:].strip()
         return None
 
     #bỏ đơn vị đo lường : m

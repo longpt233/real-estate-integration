@@ -20,7 +20,8 @@ class StandardNhadat24h(StandardCommon):
         ls = []
         for item in self.data[field]:
             item = str(item)
-            item = re.sub("\n", "", item)
+            item = item.strip()
+            item = re.sub("\n+", "", item)
             item = re.sub(' +', " ", item)
             ls.append(item)
         self.data[field] = ls
@@ -38,5 +39,6 @@ nd24h.standardNone(["juridical"])
 nd24h.standardDirect("direct")
 nd24h.standardType("type")
 nd24h.standardAddress("address")
+nd24h.standardAddress("specific_address")
 
 nd24h.data.to_csv("nhadat24h.csv")
