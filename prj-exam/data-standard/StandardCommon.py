@@ -9,7 +9,7 @@ class StandardCommon:
 
     # loại bỏ trùng lặp
     def dropDuplicate(self, subset):
-        return self.data.drop_duplicates(subset=subset)
+        self.data = self.data.drop_duplicates(subset=subset)
 
     # tách trường address thành các trường ward, province, street, district
     # def sliceAddress(self, fieldAddress):

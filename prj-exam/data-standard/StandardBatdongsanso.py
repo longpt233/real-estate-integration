@@ -1,6 +1,5 @@
-from standard_data.StandardCommon import StandardCommon
+from .StandardCommon import StandardCommon
 import pandas as pd
-import numpy as np
 import re
 
 class StandardBatdongsanso(StandardCommon):
@@ -56,13 +55,12 @@ class StandardBatdongsanso(StandardCommon):
         self.data = self.data.drop(columns=fieldProperty)
 
 
-PATH_BAT_DONG_SAN_SO = "../crawl_data/batdongsanso.csv"
+PATH_BAT_DONG_SAN_SO = "../data-raw/batdongsanso.csv"
 batdongsanso = pd.read_csv(PATH_BAT_DONG_SAN_SO, encoding = 'utf-8')
 
 bdss = StandardBatdongsanso(batdongsanso)
 
 bdss.sliceProperty("property", "square", "direct", "bedroom", "toilet", "facade", "floor")
-bdss.dropDuplicate(['address', 'price', 'bedroom', 'floor', "facade", "toilet", "direct", "square"])
 bdss.standardDate("date")
 bdss.removeUnitMeasure(["square"])
 bdss.standardPrice("price", "square")
@@ -70,5 +68,6 @@ bdss.standardType("type")
 bdss.standardPhoneContact("phone_contact")
 bdss.standardAddress("address")
 bdss.strip(["name_contact", "direct"])
+bdss.dropDuplicate(['address', 'price', 'bedroom', 'floor', "facade", "toilet", "direct", "square"])
 
 bdss.data.to_csv("batdongsanso.csv")
