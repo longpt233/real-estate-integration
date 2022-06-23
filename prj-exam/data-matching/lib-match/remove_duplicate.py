@@ -33,6 +33,7 @@ class remove_duplicate:
                                                  min_df=5)
 
         df = self.get_data_to_train()
+        df["description"].fillna('None', inplace=True)
         self.feature_extractor.fit(df["description"])
 
     def check_constrain(self, item1, item2):
