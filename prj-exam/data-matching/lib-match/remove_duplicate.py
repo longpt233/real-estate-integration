@@ -1,6 +1,5 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
-import pymongo
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
