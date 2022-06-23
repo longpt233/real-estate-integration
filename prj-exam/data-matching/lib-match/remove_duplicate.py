@@ -4,6 +4,8 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 from joblib import dump
+from datetime import datetime
+from datetime import date
 
 
 class remove_duplicate:
@@ -34,7 +36,9 @@ class remove_duplicate:
         self.feature_extractor.fit(df["description"])
 
     def check_constrain(self, item1, item2):
-        if abs(item1["date"] - item2["date"]) > self.max_time_diff:
+        # if abs(item1["date"] - item2["date"]) > self.max_time_diff:
+        #     return False
+        if abs((datetime.strptime(item1["date"], '%d/%m/%Y').date() - datetime.strptime(item2["date"], '%d/%m/%Y').date()).days*24*60*60) > self.max_time_diff:
             return False
         if abs(item1["square"] - item2["square"])/min(item1["square"], item2["square"]) > self.max_area_diff:
             return False
