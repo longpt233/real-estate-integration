@@ -111,6 +111,22 @@ class CrawlNhadat24h(Item):
     parking = Field()
     url_page = Field()
 
+class CrawlBatdongsan123(Item):
+    title= Field()
+    price = Field()
+    description = Field()
+    link_image = Field()
+    url_page = Field()
+    bedroom = Field()
+    bathroom = Field()
+    acreage = Field()
+    address = Field()
+    direction = Field()
+    date = Field()
+    code = Field()
+    name_contact = Field()
+    phone_contact = Field()
+    project = Field()
 
 
 
