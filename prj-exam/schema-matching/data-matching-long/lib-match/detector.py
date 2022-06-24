@@ -167,10 +167,16 @@ class property_area_classifer(classifier):
         else:
             return 0
 
-class property_address_classifer(classifier):
+class property_ward_classifer(classifier):
     def __init__(self, valid_weight = 1, constrain_weight = 0, feature_extractor = None, category = 4):
-        super(property_address_classifer, self).__init__(valid_weight, constrain_weight, feature_extractor, category)
+        super(property_ward_classifer, self).__init__(valid_weight, constrain_weight, feature_extractor, category)
+
+class property_province_classifer(classifier):
+    def __init__(self, valid_weight = 1, constrain_weight = 0, feature_extractor = None, category = 5):
+        super(property_province_classifer, self).__init__(valid_weight, constrain_weight, feature_extractor, category)
+
 
 class property_type_classifer(classifier):
-    def __init__(self, valid_weight = 1, constrain_weight = 0, feature_extractor = None, category = 5):
+    def __init__(self, valid_weight = 1, constrain_weight = 0, feature_extractor = None, category = 6):
         super(property_type_classifer, self).__init__(valid_weight, constrain_weight, feature_extractor, category)
+

@@ -12,7 +12,10 @@ class SchemaMatching:
                                "property_detail" : None,
                                "property_price" : None,
                                "property_area" : None,
-                               "property_address" : None,
+
+                               "property_ward" : None,
+                               "property_province": None,
+
                                "property_type" : None,
                                "property_date" : None,
                                "property_link" : None,
@@ -20,7 +23,7 @@ class SchemaMatching:
         self.min_thres = min_thres
 
     def get_train_data(self):
-        PATH_BAT_DONG_SAN_SO = "/content/drive/MyDrive/20212/class/tich-hop-du-lieu/bai-tap-lon/real-estate-integration/data-standard/batdongsanso.csv"
+        PATH_BAT_DONG_SAN_SO = "/content/drive/MyDrive/20212/class/tich-hop-du-lieu/bai-tap-lon/real-estate-integration/prj-exam/data-standard/batdongsan123.csv"
         batdongsanso = pd.read_csv(PATH_BAT_DONG_SAN_SO, encoding = 'utf-8')
         return batdongsanso
 
@@ -34,24 +37,31 @@ class SchemaMatching:
         self.features_extractor = TfidfVectorizer(lowercase=True, preprocessor=self.preprocess, ngram_range=(1, 1), max_df=1.0,
                                              min_df=5)
         df = self.get_train_data()
-        X_texts = df["title"].to_list() + df["content"].to_list() +\
-                  df["price"].to_list() + df["square"].to_list() + \
-                  df["address"].to_list() + df["type"].to_list()
+        X_texts = df["title"].to_list() + df["description"].to_list() +\
+                  df["price"].to_list() + df["acreage"].to_list() + \
+                  df["ward"].to_list()+ df["province"].to_list() + df["type"].to_list()
+
         X_texts = np.array(X_texts)
         X_texts = np.reshape(X_texts, (-1))
         self.features_extractor.fit(X_texts)
 
         X_features = self.features_extractor.transform(X_texts)
         num_entries = len(df)
-        y_category = np.zeros(6*num_entries)
-        for i in range(6):
+
+        num_cate = 7
+
+        y_category = np.zeros(num_cate*num_entries)
+        for i in range(num_cate):
             y_category[num_entries * i:num_entries * (i + 1)] = i
 
         self.field_matchers["property_title"] = property_title_classifier(feature_extractor=self.features_extractor)
         self.field_matchers["property_detail"] = property_detail_classifier(feature_extractor=self.features_extractor)
         self.field_matchers["property_price"] = property_price_classifier(feature_extractor=self.features_extractor)
         self.field_matchers["property_area"] = property_area_classifer(feature_extractor=self.features_extractor)
-        self.field_matchers["property_address"] = property_address_classifer(feature_extractor=self.features_extractor)
+
+        self.field_matchers["property_ward"] = property_ward_classifer(feature_extractor=self.features_extractor)
+        self.field_matchers["property_province"] = property_province_classifer(feature_extractor=self.features_extractor)
+
         self.field_matchers["property_type"] = property_type_classifer(feature_extractor=self.features_extractor)
         self.field_matchers["property_date"] = property_date_detector()
         self.field_matchers["property_link"] = property_link_detector()
