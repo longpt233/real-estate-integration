@@ -5,11 +5,11 @@ import pandas as pd
 remover: remove_duplicate = load("RemoveDuplicate.lib")
 
 
-path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/data.csv'
-df = pd.read_csv(path_data, encoding='utf-8')
+path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/output/final.csv'
+df = pd.read_csv(path_data, encoding='utf-8', low_memory=False)
 df = df.drop(["Unnamed: 0"], axis=1)
 # Optional
-df["date"].fillna('01/01/2021', inplace=True)
+# df["date"].fillna('01/01/2021', inplace=True)
 # df = df.fillna('None')
 
 if len(df) > 0:

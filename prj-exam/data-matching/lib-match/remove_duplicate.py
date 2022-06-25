@@ -17,8 +17,8 @@ class remove_duplicate:
         self.feature_extractor: TfidfVectorizer = None
 
     def get_data_to_train(self):
-        path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/data.csv'
-        df = pd.read_csv(path_data, encoding='utf-8')
+        path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/output/final.csv'
+        df = pd.read_csv(path_data, encoding='utf-8', low_memory=False)
         df = df.drop(["Unnamed: 0"], axis=1)
         df = df.fillna('None')
         return df
@@ -49,7 +49,7 @@ class remove_duplicate:
         return True
 
     def remove_inside(self, df):
-        df.fillna('None', inplace=True)
+        # df.fillna('None', inplace=True)
         try:
             X_vectors = self.feature_extractor.transform(df["description"])
             similarity_scores = cosine_similarity(X_vectors)
@@ -75,10 +75,17 @@ class remove_duplicate:
             print("Exception occurs in remove_inside", ex)
 
     # def get_old_data(self, ward, district, province, type, min_time, max_time):
-    def get_old_data(self, address, min_time, max_time):
-        path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/data.csv'
-        df = pd.read_csv(path_data, encoding='utf-8')
+    def get_old_data(self, ward, district, province, type, min_time, max_time):
+        path_data = '/home/darkknight/real-estate-integration/prj-exam/schema-matching/output/final.csv'
+        df = pd.read_csv(path_data, encoding='utf-8', low_memory=False)
         df = df.drop(["Unnamed: 0"], axis=1)
+        df["date_second"] = df["date"].map(lambda x: (datetime.strptime(
+            x, '%d/%m/%Y').date()-datetime.strptime(str('01/01/1970'), '%d/%m/%Y').date()).days*24*60*60)
+        df = df[(df["type"] == type) & (df["ward"] == ward) & (df["district"] == district) & (df["province"] == province) & (df["date_second"]
+                                                                                                                             > min_time) & (df["date_second"] < max_time)]
+        # & ((datetime.strptime(str(df["date"]), '%d/%m/%Y').date(
+        # )-datetime.strptime(str('01/01/1970'), '%d/%m/%Y').date()).days*24*60*60 > min_time) & ((datetime.strptime(str(df["date"]), '%d/%m/%Y').date(
+        # )-datetime.strptime(str('01/01/1970'), '%d/%m/%Y').date()).days*24*60*60 > max_time)]
         df = df.fillna('None')
         return df
 
@@ -107,13 +114,13 @@ class remove_duplicate:
             print("Exception occurs in remove_outside", ex)
 
     # ward, district, province, type):
-    def remove_subset(self, new_df: pd.DataFrame, address):
+    def remove_subset(self, new_df: pd.DataFrame, ward, district, province, type):
         try:
             new_df = new_df.drop_duplicates()
             new_df.reset_index(inplace=True)
             new_df["date"].fillna('01/01/2021', inplace=True)
-            # if len(new_df) > 1:
-            #     new_df = self.remove_inside(new_df)
+            if len(new_df) > 1:
+                new_df = self.remove_inside(new_df)
             # min_time = np.min(new_df["date"])
             # max_time = np.max(new_df["date"])
             min_time = (datetime.strptime(str(np.min(new_df["date"])), '%d/%m/%Y').date(
@@ -122,35 +129,37 @@ class remove_duplicate:
             )-datetime.strptime(str('01/01/1970'), '%d/%m/%Y').date()).days*24*60*60
             min_time -= self.max_time_diff
             max_time += self.max_time_diff
-            # old_df = self.get_old_data(
-            #     ward, district, province, type, min_time, max_time)
+            old_df = self.get_old_data(
+                ward, district, province, type, min_time, max_time)
             # old_df = self.get_old_data(
             #     address, min_time, max_time)
-            # if old_df is not None:
-            #     new_df = self.remove_outside(old_df, new_df)
+            if old_df is not None:
+                new_df = self.remove_outside(old_df, new_df)
             return new_df
         except Exception as ex:
             print("Exception occurs in remove_subset", ex)
 
     def remove_duplicate(self, df: pd.DataFrame):
+        df = df.drop(df[df['square'] == 0].index)
+        df = df.drop(df[df['price'] == 0].index)
         if len(df) > 0:
-            # df.set_index(["property_ward", "property_district",
-            #              "property_province", "property_type"], inplace=True)
-            # df.sort_index(inplace=True)
-            # result = []
-            # for ward, district, province, type in set(df.index):
-            #     df_sub = df.loc[[(ward, district, province, type)]]
-            #     df_sub = self.remove_subset(
-            #         df_sub, ward, district, province, type)
-            #     result.append(df_sub)
-            df.set_index(["address"], inplace=True)
+            df.set_index(["ward", "district",
+                         "province", "type"], inplace=True)
             df.sort_index(inplace=True)
             result = []
-            for address in set(df.index):
-                df_sub = df.loc[[address]]
+            for ward, district, province, type in set(df.index):
+                df_sub = df.loc[[(ward, district, province, type)]]
                 df_sub = self.remove_subset(
-                    df_sub, address)
+                    df_sub, ward, district, province, type)
                 result.append(df_sub)
+            # df.set_index(["address"], inplace=True)
+            # df.sort_index(inplace=True)
+            # result = []
+            # for address in set(df.index):
+            #     df_sub = df.loc[[address]]
+            #     df_sub = self.remove_subset(
+            #         df_sub, address)
+            #     result.append(df_sub)
             df = pd.concat(result, ignore_index=True)
             return df
         else:
