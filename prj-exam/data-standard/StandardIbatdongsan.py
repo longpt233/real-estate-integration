@@ -163,6 +163,17 @@ class StandardCommon:
             ls.append(item)
         self.data[field] = ls
 
+    def processValueNull(self, fields, values):
+        for field, value in zip(fields, values):
+            ls = []
+            for item in self.data[field]:
+                if pd.isna(item) or pd.isnull(item):
+                    item = value
+                elif len(item.strip()) == 0:
+                    item = value
+                ls.append(item)
+            self.data[field] = ls
+
 class StandardAlonhadat(StandardCommon):
     def __init__(self, data):
         self.data = data
@@ -187,6 +198,10 @@ class StandardIbatdongsan(StandardCommon):
             ls.append(item)
         self.data[field] = ls
 
+    def process (self):
+        for item in self.data["price"]:
+            print(type(item))
+
 PATH_IBAT_DONG_SAN = "../data-raw/ibatdongsan.csv"
 ibatdongsan = pd.read_csv(PATH_IBAT_DONG_SAN, encoding = 'utf-8')
 
@@ -201,6 +216,7 @@ ibds.standardIcon(["diningroom", "kitchen", "parking", "terrace"])
 ibds.standardLinkImage("link_image")
 ibds.standardUnit("bedroom", " pn")
 ibds.standardUnit("floor", " t")
+ibds.processValueNull(["direct","bedroom", "price", "floor", "juridical", "length","width", "world_highway", "ward", "province", "district", "street"],["None","0 pn", "0", "0 t", "Sổ hồng", "0m", "0m", "0m","None", "None", "None", "None"])
 ibds.dropDuplicate(['province', 'district', 'ward', 'street', 'type', 'direct', 'price', 'length', 'width', 'area', 'bedroom', 'floor', 'world_highway'])
-
+ibds.process()
 ibds.data.to_csv("ibatdongsan.csv")

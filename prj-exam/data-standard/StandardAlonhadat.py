@@ -163,6 +163,18 @@ class StandardCommon:
             ls.append(item)
         self.data[field] = ls
 
+    def processValueNull(self, fields, values):
+        for field, value in zip(fields, values):
+            ls = []
+            for item in self.data[field]:
+                if pd.isna(item) or pd.isnull(item):
+                    item = value
+                elif len(item.strip()) == 0:
+                    item = value
+                ls.append(item)
+            self.data[field] = ls
+
+
 class StandardAlonhadat(StandardCommon):
     def __init__(self, data):
         self.data = data
@@ -190,6 +202,9 @@ alonhadat.standardPrice("price", "square")
 alonhadat.standardUnit("bedroom", " pn")
 alonhadat.standardUnit("floor", " t")
 alonhadat.standardType("type")
-alonhadat.dropDuplicate(['province', 'street', 'ward', 'district', 'project', 'type', 'direct', 'price', 'square', 'bedroom', 'floor', 'diningroom', 'kitchen'])
-
+alonhadat.processValueNull(["bedroom","juridical", "direct", "price", "district", "province", "street", "ward", "floor",
+                            "introduce_contact", "description", "project", "length", "width", "road_width"], ["0 pn","Sổ đỏ", "None", "0", "None",
+                                                                                    "None", "None", "None", "0 t", "None","None", "None", "0m","0m", "0m"])
+alonhadat.dropDuplicate(['province', 'street', 'ward', 'district', 'project', 'type', 'direct', 'price', 'square',
+                         'bedroom', 'floor', 'diningroom', 'kitchen'])
 alonhadat.data.to_csv("alonhadat.csv")
