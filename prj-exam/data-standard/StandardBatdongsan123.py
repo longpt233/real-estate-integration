@@ -164,6 +164,17 @@ class StandardCommon:
             ls.append(item)
         self.data[field] = ls
 
+    def processValueNull(self, fields, values):
+        for field, value in zip(fields, values):
+            ls = []
+            for item in self.data[field]:
+                if pd.isna(item) or pd.isnull(item):
+                    item = value
+                elif len(item.strip()) == 0:
+                    item = value
+                ls.append(item)
+            self.data[field] = ls
+
 class StandardAlonhadat(StandardCommon):
     def __init__(self, data):
         self.data = data
@@ -198,6 +209,7 @@ bds123.standardDate("date")
 bds123.standardPrice("price", "acreage")
 bds123.addField(["type", "floor", "terrace", "parking", "kitchen", "juridical"], ["Cần bán căn hộ chung cư", "1 t","không", "có", "có","Sổ hồng/ Sổ đỏ" ])
 bds123.strip(["title"])
+bds123.processValueNull(["direction", "province", "street", "ward", "district", "price", "bedroom", "bathroom" ], ["None", "None", "None", "None", "None", "0", "0 pn", "0 wc"])
 bds123.dropDuplicate(["province", "ward", "street", "district", "acreage", "price", "bedroom", "project", "bathroom"])
 
 bds123.data.to_csv("batdongsan123.csv")

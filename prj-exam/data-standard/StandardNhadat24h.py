@@ -165,6 +165,17 @@ class StandardCommon:
             ls.append(item)
         self.data[field] = ls
 
+    def processValueNull(self, fields, values):
+        for field, value in zip(fields, values):
+            ls = []
+            for item in self.data[field]:
+                if pd.isna(item) or pd.isnull(item):
+                    item = value
+                elif len(item.strip()) == 0:
+                    item = value
+                ls.append(item)
+            self.data[field] = ls
+
 class StandardNhadat24h(StandardCommon):
     def __init__(self, data):
         self.data = data
@@ -189,7 +200,7 @@ class StandardNhadat24h(StandardCommon):
         self.data[field] = ls
 
 PATH_NHA_DAT_24H= "../data-raw/nhadat24h.csv"
-nhadat24h = pd.read_csv(PATH_NHA_DAT_24H, encoding = 'utf-8')
+nhadat24h = pd.read_csv(PATH_NHA_DAT_24H, encoding="utf-8")
 
 nd24h = StandardNhadat24h(nhadat24h)
 
@@ -204,6 +215,7 @@ nd24h.standardDirect("direct")
 nd24h.standardType("type")
 nd24h.standardUnit("bedroom", " pn")
 nd24h.standardUnit("floor", " t")
+nd24h.processValueNull(["description","juridical", "province", "ward", "district", "street", "price"], ["None", "Sổ đỏ", "None", "None", "None", "None", "0"])
 nd24h.dropDuplicate(['province', "ward", "district", "street", 'type', 'direct', 'price', 'ground_area', 'usable_area', 'kitchen', 'livingroom', 'name_project', 'specific_address'])
 
 nd24h.data.to_csv("nhadat24h.csv")
